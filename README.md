@@ -1,4 +1,4 @@
-# Realtime Wordle (V4)
+# Wrdl.io (Realtime Wordle)🎮
 
 A real-time multiplayer Wordle clone with Competitive and Cooperative modes.
 
