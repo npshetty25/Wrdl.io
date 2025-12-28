@@ -27,25 +27,7 @@ A real-time multiplayer Wordle clone with Competitive and Cooperative modes.
 -   **Timer**: Track your speed.
 -   **Sharing**: QR Code and easy Link copying.
 
-## Playing on Mobile (Local Network)
 
-To play with friends on the same WiFi (or test on your phone):
-
-1.  **Find your IP Address**:
-    -   Run `ipconfig` in the terminal.
-    -   Look for **IPv4 Address** (e.g., `192.168.1.5`).
-
-2.  **Start Server for Network**:
-    ```bash
-    npm run dev -- -H 0.0.0.0
-    ```
-
-3.  **Connect**:
-    -   On your phone, go to `http://YOUR_IP_ADDRESS:3000`
-    -   Example: `http://192.168.1.5:3000`
-
-**Note for QR Codes**:
-When you open the game on your PC using the **IP Address** (not `localhost`), the QR code generated will work for your phone!
 
 ## Tech Stack
 -   Next.js
