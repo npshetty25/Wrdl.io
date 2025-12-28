@@ -1,4 +1,4 @@
-# Realtime Wordle (V4)
+# Wrdl.io (Realtime Wordle)🎮
 
 A real-time multiplayer Wordle clone with Competitive and Cooperative modes.
 
@@ -17,7 +17,7 @@ A real-time multiplayer Wordle clone with Competitive and Cooperative modes.
 4.  **Open Browser**:
     Go to [http://localhost:3000](http://localhost:3000)
 
-## Features
+## 🚀 Features
 
 -   **Multiplayer**: Real-time updates via Socket.io.
 -   **Modes**:
@@ -29,8 +29,16 @@ A real-time multiplayer Wordle clone with Competitive and Cooperative modes.
 
 
 
-## Tech Stack
+## 🛠 Tech Stack
 -   Next.js
 -   Socket.io
 -   TypeScript
 -   Vanilla CSS
+### first look
+<img width="1879" height="974" alt="image" src="https://github.com/user-attachments/assets/2b34f84a-cab5-4950-9574-a01bff464376" />
+### competitive mode
+<img width="1916" height="876" alt="image" src="https://github.com/user-attachments/assets/cc3681ab-f960-4d1d-a4fc-10968ceb8fbc" />
+### co-operative mide
+<img width="1911" height="976" alt="image" src="https://github.com/user-attachments/assets/12e9b472-42a5-4614-a381-a1d31a81f2d8" />
+
+
