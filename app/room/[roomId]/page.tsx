@@ -185,6 +185,11 @@ export default function RoomPage() {
                     <div className={styles.roomId}>{roomId}</div>
                 </div>
 
+                <div>
+                    <p style={{ fontSize: '0.9rem', color: '#aaa', margin: 0 }}>Mode</p>
+                    <div style={{ fontWeight: 'bold' }}>{mode === 'coop' ? 'Cooperative' : 'Competitive'}</div>
+                </div>
+
 
 
                 <button onClick={copyLink} className={styles.copyButton}>
