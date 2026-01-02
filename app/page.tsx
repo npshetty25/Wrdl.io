@@ -25,6 +25,9 @@ export default function Lobby() {
 
   return (
     <main className={styles.main}>
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', padding: '20px', background: 'red', color: 'white', zIndex: 9999, textAlign: 'center', fontWeight: 'bold' }}>
+        DEBUG: IF YOU SEE THIS, DEPLOYMENT IS WORKING - {new Date().toISOString()}
+      </div>
       {/* Background overlay for depth */}
       <div className={styles.overlay} />
 
