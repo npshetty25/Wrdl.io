@@ -30,6 +30,7 @@ A real-time multiplayer Wordle clone with Competitive and Cooperative modes.
 -   **Visuals**: Deep space animated background, glassmorphism UI.
 -   **Timer**: Track your speed.
 -   **Sharing**: QR Code and easy Link copying.
+-   **Fully Responsive**: Dedicated layouts for Desktop (Full Sidebar) and Mobile (Compact).
 
 
 
