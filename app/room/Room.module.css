@@ -159,9 +159,9 @@
         grid-template-columns: 1fr;
         grid-template-rows: auto auto auto;
         grid-template-areas:
+            "sidebar-left"
             "game"
-            "sidebar-right"
-            "sidebar-left";
+            "sidebar-right";
         gap: 15px;
     }
 
@@ -205,4 +205,4 @@
         display: none;
         /* Hide opponent board on very small screens or move it */
     }
-} 
+}
