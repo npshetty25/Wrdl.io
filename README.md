@@ -2,7 +2,11 @@
 
 A real-time multiplayer Wordle clone with Competitive and Cooperative modes.
 
-## How to Start the Game
+## 🌐 Play Live
+
+**Play the live version here:** [https://wrdl-io.onrender.com](https://wrdl-io.onrender.com)
+
+## 💻 How to Start the Game (Locally)
 
 1.  **Open Terminal** (Command Prompt or PowerShell).
 2.  **Navigate to the folder**:
