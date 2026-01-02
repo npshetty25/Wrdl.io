@@ -151,31 +151,15 @@
 }
 
 /* Mobile Responsive */
-@media (max-width: 900px) {
+@media (max-width: 600px) {
     .main {
-        padding: 10px;
-        height: auto;
-        min-height: 100vh;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto;
-        grid-template-areas:
-            "sidebar-left"
-            "game"
-            "sidebar-right";
-        gap: 15px;
-    }
-
-    .sidebarLeft {
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
+        padding: 5px;
     }
 
     .qrContainer {
         display: none;
-        /* Hide QR on mobile */
     }
+
 
     .gameArea {
         min-height: 60vh;

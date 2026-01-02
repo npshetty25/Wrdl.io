@@ -125,9 +125,6 @@ export default function Lobby() {
           </div>
         </div>
       </div>
-      <div style={{ position: 'absolute', bottom: '10px', right: '10px', color: 'rgba(255,255,255,0.3)', fontSize: '0.8rem' }}>
-        v1.1
-      </div>
     </main>
   )
 }
