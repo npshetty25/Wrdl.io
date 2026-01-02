@@ -190,82 +190,80 @@ export default function RoomPage() {
                 <button onClick={copyLink} className={styles.copyButton}>
                     🔗 Copy Link
                 </button>
+            </aside>
 
-            </div>
-        </aside>
-
-            {/* Center: Game */ }
-    <section className={styles.gameArea}>
-        {/* Notification Toast */}
-        {notification && (
-            <div className={styles.notification}>
-                {notification}
-            </div>
-        )}
-
-        {/* Game Overlay */}
-        {gameState === 'playing' ? (
-            <WordleGame
-                initialSolution={solution}
-                socket={socketRef.current!}
-                roomId={roomId as string}
-                onGameOver={handleGameOver}
-                forcedGuesses={mode === 'coop' ? sharedGuesses : undefined}
-            />
-        ) : (
-            <div className={styles.waitingMessage}>
-                <h2>Waiting for players...</h2>
-                {mode === 'competitive' && <p>Competitive mode requires 2 players.</p>}
-            </div>
-        )}
-    </section>
-
-    {/* Right Sidebar: Chat & Players */ }
-    <aside className={styles.sidebarRight}>
-
-        {/* Player List (Compact) */}
-        <div className={styles.playerList}>
-            <h3 style={{ marginTop: 0, fontSize: '1rem', marginBottom: '8px' }}>Players ({players.length})</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                {players.map(p => (
-                    <div key={p.id} className={styles.playerItem}>
-                        <div className={styles.playerIndicator} />
-                        <span>{p.username} {p.id === socketRef.current?.id ? '(You)' : ''}</span>
+            {/* Center: Game */}
+            <section className={styles.gameArea}>
+                {/* Notification Toast */}
+                {notification && (
+                    <div className={styles.notification}>
+                        {notification}
                     </div>
-                ))}
-            </div>
-        </div>
+                )}
 
-        {/* Opponent Board (Compact, Scaled) */}
-        {mode === 'competitive' && gameState === 'playing' && (
-            <div className={styles.opponentBoard}>
-                <h4 style={{ margin: '0 0 5px 0', fontSize: '0.9rem' }}>Opponent</h4>
-                {/* Wrapper for scaling */}
-                <div className={styles.opponentBoardWrapper}>
-                    <div className={styles.opponentBoardScale}>
-                        <OpponentBoard guesses={opponentGuesses} solution={solution} />
+                {/* Game Overlay */}
+                {gameState === 'playing' ? (
+                    <WordleGame
+                        initialSolution={solution}
+                        socket={socketRef.current!}
+                        roomId={roomId as string}
+                        onGameOver={handleGameOver}
+                        forcedGuesses={mode === 'coop' ? sharedGuesses : undefined}
+                    />
+                ) : (
+                    <div className={styles.waitingMessage}>
+                        <h2>Waiting for players...</h2>
+                        {mode === 'competitive' && <p>Competitive mode requires 2 players.</p>}
+                    </div>
+                )}
+            </section>
+
+            {/* Right Sidebar: Chat & Players */}
+            <aside className={styles.sidebarRight}>
+
+                {/* Player List (Compact) */}
+                <div className={styles.playerList}>
+                    <h3 style={{ marginTop: 0, fontSize: '1rem', marginBottom: '8px' }}>Players ({players.length})</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                        {players.map(p => (
+                            <div key={p.id} className={styles.playerItem}>
+                                <div className={styles.playerIndicator} />
+                                <span>{p.username} {p.id === socketRef.current?.id ? '(You)' : ''}</span>
+                            </div>
+                        ))}
                     </div>
                 </div>
-            </div>
-        )}
 
-        {/* Chat (Takes remaining space) */}
-        <div className={styles.chatContainer}>
-            <Chat socket={socketRef.current} roomId={roomId as string} username={username} />
-        </div>
-    </aside>
+                {/* Opponent Board (Compact, Scaled) */}
+                {mode === 'competitive' && gameState === 'playing' && (
+                    <div className={styles.opponentBoard}>
+                        <h4 style={{ margin: '0 0 5px 0', fontSize: '0.9rem' }}>Opponent</h4>
+                        {/* Wrapper for scaling */}
+                        <div className={styles.opponentBoardWrapper}>
+                            <div className={styles.opponentBoardScale}>
+                                <OpponentBoard guesses={opponentGuesses} solution={solution} />
+                            </div>
+                        </div>
+                    </div>
+                )}
 
-    {
-        modalOpen && (
-            <Modal
-                title={modalContent.title}
-                message={modalContent.message}
-                actionLabel="Play Again"
-                onAction={handleRematch}
-                onClose={() => setModalOpen(false)}
-            />
-        )
-    }
+                {/* Chat (Takes remaining space) */}
+                <div className={styles.chatContainer}>
+                    <Chat socket={socketRef.current} roomId={roomId as string} username={username} />
+                </div>
+            </aside>
+
+            {
+                modalOpen && (
+                    <Modal
+                        title={modalContent.title}
+                        message={modalContent.message}
+                        actionLabel="Play Again"
+                        onAction={handleRematch}
+                        onClose={() => setModalOpen(false)}
+                    />
+                )
+            }
         </main >
     )
 }
