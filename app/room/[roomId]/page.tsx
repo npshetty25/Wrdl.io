@@ -173,26 +173,32 @@ export default function RoomPage() {
         <main className={styles.main}>
             {/* Left Sidebar: Info */}
             <aside className={styles.sidebarLeft}>
-                <div>
-                    <h2 style={{ fontSize: '1.2rem', marginBottom: '5px' }}>Share Key</h2>
-                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                        <div className={styles.qrContainer}>
-                            {isMounted && <QRCodeSVG value={fullShareUrl} size={100} />}
+                <div style={{ display: 'flex', gap: '15px', alignItems: 'center', width: '100%' }}>
+                    {/* Left: QR */}
+                    <div className={styles.qrContainer} style={{ background: 'white', padding: '5px', borderRadius: '5px', flexShrink: 0 }}>
+                        {isMounted && <QRCodeSVG value={fullShareUrl} size={90} />}
+                    </div>
+
+                    {/* Right: Info Stack */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', flex: 1 }}>
+
+                        {/* Mode */}
+                        <div>
+                            <p style={{ fontSize: '0.8rem', color: '#aaa', margin: 0 }}>Mode</p>
+                            <div style={{ fontWeight: 'bold', fontSize: '0.95rem' }}>{mode === 'coop' ? 'Cooperative' : 'Competitive'}</div>
                         </div>
-                        <button onClick={copyLink} className={styles.copyButton}>
-                            🔗 Copy
+
+                        {/* Room Code */}
+                        <div>
+                            <p style={{ fontSize: '0.8rem', color: '#aaa', margin: 0 }}>Room Code</p>
+                            <div className={styles.roomId} style={{ fontSize: '1.1rem' }}>{roomId}</div>
+                        </div>
+
+                        {/* Copy Link */}
+                        <button onClick={copyLink} className={styles.copyButton} style={{ padding: '8px', fontSize: '0.9rem', width: 'fit-content' }}>
+                            🔗 Copy Link
                         </button>
                     </div>
-                </div>
-
-                <div>
-                    <p style={{ fontSize: '0.9rem', color: '#aaa', margin: 0 }}>Room Code</p>
-                    <div className={styles.roomId}>{roomId}</div>
-                </div>
-
-                <div>
-                    <p style={{ fontSize: '0.9rem', color: '#aaa', margin: 0 }}>Mode</p>
-                    <div style={{ fontWeight: 'bold' }}>{mode === 'coop' ? 'Cooperative' : 'Competitive'}</div>
                 </div>
 
 
