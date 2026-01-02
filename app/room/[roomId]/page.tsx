@@ -282,6 +282,7 @@ export default function RoomPage() {
                 {/* Game Overlay */}
                 {gameState === 'playing' ? (
                     <WordleGame
+                        key={startTime}
                         initialSolution={solution}
                         socket={socketRef.current!}
                         roomId={roomId as string}
