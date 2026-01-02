@@ -15,13 +15,24 @@ export default function Modal({ title, message, gifUrl, soundUrl, actionLabel, o
     const audioRef = useRef<HTMLAudioElement | null>(null)
 
     useEffect(() => {
+        let mounted = true;
         if (soundUrl) {
             audioRef.current = new Audio(soundUrl)
             audioRef.current.loop = true
-            audioRef.current.play().catch(e => console.error("Audio play failed", e))
+            const playPromise = audioRef.current.play();
+
+            if (playPromise !== undefined) {
+                playPromise.catch(e => {
+                    // Auto-play was prevented or interrupted by pause()
+                    // If interrupted by unmount (pause), we can ignore safely
+                    if (!mounted || e.name === 'AbortError') return;
+                    console.error("Audio play failed", e)
+                })
+            }
         }
 
         return () => {
+            mounted = false;
             if (audioRef.current) {
                 audioRef.current.pause()
                 audioRef.current = null
