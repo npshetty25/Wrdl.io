@@ -84,8 +84,8 @@ module.exports = (io) => {
             }
         });
 
-        socket.on('send_message', ({ roomId, username, message }) => {
-            io.to(roomId).emit('receive_message', { username, message });
+        socket.on('send_message', ({ roomId, username, message, type = 'text' }) => {
+            io.to(roomId).emit('receive_message', { username, message, type });
         });
 
         socket.on('play_again', ({ roomId }) => {

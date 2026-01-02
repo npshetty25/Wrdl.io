@@ -36,7 +36,7 @@ export default function RoomPage() {
     const [sharedGuesses, setSharedGuesses] = useState<string[]>([])
 
     const [modalOpen, setModalOpen] = useState(false)
-    const [modalContent, setModalContent] = useState({ title: '', message: '' })
+    const [modalContent, setModalContent] = useState({ title: '', message: '', gifUrl: '', soundUrl: '' })
     const [notification, setNotification] = useState<string | null>(null)
     const [isMounted, setIsMounted] = useState(false)
 
@@ -86,15 +86,37 @@ export default function RoomPage() {
 
         socket.on('game_over', ({ winner, solution: revealSolution }) => {
             if (winner === 'Team') {
-                setModalContent({ title: 'Victory!', message: `Team won! Word: ${revealSolution}` })
+                setModalContent({
+                    title: 'Victory!',
+                    message: `Team won! Word: ${revealSolution}`,
+                    gifUrl: '/images/win.gif',
+                    soundUrl: '/sounds/win.mp3'
+                })
                 setModalOpen(true)
             } else if (winner === 'None') {
-                setModalContent({ title: 'Defeat', message: `Out of turns! Word: ${revealSolution}` })
+                setModalContent({
+                    title: 'Defeat',
+                    message: `Out of turns! Word: ${revealSolution}`,
+                    gifUrl: '/images/lose.gif',
+                    soundUrl: '/sounds/lose.mp3'
+                })
                 setModalOpen(true)
             } else if (winner === socket.id) {
-                // I won
+                // I won - handled by local check usually, but just in case
+                setModalContent({
+                    title: 'You Won!',
+                    message: `Excellent work!`,
+                    gifUrl: '/images/win.gif',
+                    soundUrl: '/sounds/win.mp3'
+                })
+                setModalOpen(true)
             } else {
-                setModalContent({ title: 'Game Over', message: `Opponent won! Word: ${revealSolution}` })
+                setModalContent({
+                    title: 'Game Over',
+                    message: `Opponent won! Word: ${revealSolution}`,
+                    gifUrl: '/images/lose.gif',
+                    soundUrl: '/sounds/lose.mp3'
+                })
                 setModalOpen(true)
             }
         })
@@ -116,13 +138,23 @@ export default function RoomPage() {
 
     const handleGameOver = (result: 'win' | 'loss') => {
         if (result === 'win') {
-            setModalContent({ title: 'You Won!', message: `Excellent work!` })
+            setModalContent({
+                title: 'You Won!',
+                message: `Excellent work!`,
+                gifUrl: '/images/win.gif',
+                soundUrl: '/sounds/win.mp3'
+            })
             setModalOpen(true)
         } else {
             // In coop, loss is handled by socket 'game_over' with 'None' usually, 
             // but if local turns run out, we wait.
             if (mode === 'competitive') {
-                setModalContent({ title: 'Waiting...', message: `You ran out of turns.` })
+                setModalContent({
+                    title: 'Waiting...',
+                    message: `You ran out of turns.`,
+                    gifUrl: '',
+                    soundUrl: ''
+                })
                 setModalOpen(true)
             }
         }
@@ -304,6 +336,8 @@ export default function RoomPage() {
                     <Modal
                         title={modalContent.title}
                         message={modalContent.message}
+                        gifUrl={modalContent.gifUrl}
+                        soundUrl={modalContent.soundUrl}
                         actionLabel="Play Again"
                         onAction={handleRematch}
                         onClose={() => setModalOpen(false)}

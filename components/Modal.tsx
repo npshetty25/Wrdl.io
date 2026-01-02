@@ -1,14 +1,34 @@
 import styles from '@/styles/Game.module.css'
+import { useEffect, useRef } from 'react'
 
 interface ModalProps {
     title: string
     message: string
+    gifUrl?: string
+    soundUrl?: string
     actionLabel?: string
     onAction?: () => void
     onClose?: () => void
 }
 
-export default function Modal({ title, message, actionLabel, onAction, onClose }: ModalProps) {
+export default function Modal({ title, message, gifUrl, soundUrl, actionLabel, onAction, onClose }: ModalProps) {
+    const audioRef = useRef<HTMLAudioElement | null>(null)
+
+    useEffect(() => {
+        if (soundUrl) {
+            audioRef.current = new Audio(soundUrl)
+            audioRef.current.loop = true
+            audioRef.current.play().catch(e => console.error("Audio play failed", e))
+        }
+
+        return () => {
+            if (audioRef.current) {
+                audioRef.current.pause()
+                audioRef.current = null
+            }
+        }
+    }, [soundUrl])
+
     return (
         <div style={{
             position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
@@ -20,7 +40,8 @@ export default function Modal({ title, message, actionLabel, onAction, onClose }
                 padding: '30px', borderRadius: '10px', maxWidth: '90%', width: '400px',
                 border: '1px solid var(--tile-border)',
                 textAlign: 'center',
-                position: 'relative'
+                position: 'relative',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px'
             }}>
                 {onClose && (
                     <button
@@ -31,7 +52,12 @@ export default function Modal({ title, message, actionLabel, onAction, onClose }
                     </button>
                 )}
                 <h2 style={{ marginTop: 0, fontSize: '2rem' }}>{title}</h2>
-                <p style={{ fontSize: '1.2rem', margin: '20px 0' }}>{message}</p>
+
+                {gifUrl && (
+                    <img src={gifUrl} alt="Reaction" style={{ maxWidth: '100%', borderRadius: '8px', maxHeight: '200px' }} />
+                )}
+
+                <p style={{ fontSize: '1.2rem', margin: '0' }}>{message}</p>
 
                 {actionLabel && onAction && (
                     <button
