@@ -151,15 +151,29 @@
 }
 
 /* Mobile Responsive */
-@media (max-width: 600px) {
+/* Mobile Responsive */
+@media (max-width: 900px) {
     .main {
-        padding: 5px;
+        padding: 10px;
+        height: auto;
+        min-height: 100vh;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        grid-template-areas:
+            "sidebar-left"
+            "game"
+            "sidebar-right";
+        gap: 15px;
     }
 
-    .qrContainer {
-        display: none;
+    .sidebarLeft {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
     }
 
+    /* QR Code remains visible on Tablet/Desktop, hidden on mobile below */
 
     .gameArea {
         min-height: 60vh;
@@ -167,13 +181,16 @@
 
     .sidebarRight {
         height: 500px;
-        /* Fixed height for chat area on mobile */
     }
 }
 
 @media (max-width: 600px) {
     .main {
         padding: 5px;
+    }
+
+    .qrContainer {
+        display: none;
     }
 
     .sidebarRight {
@@ -187,6 +204,5 @@
 
     .opponentBoard {
         display: none;
-        /* Hide opponent board on very small screens or move it */
     }
 }
