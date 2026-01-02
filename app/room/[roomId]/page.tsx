@@ -38,8 +38,10 @@ export default function RoomPage() {
     const [modalOpen, setModalOpen] = useState(false)
     const [modalContent, setModalContent] = useState({ title: '', message: '' })
     const [notification, setNotification] = useState<string | null>(null)
+    const [isMounted, setIsMounted] = useState(false)
 
     useEffect(() => {
+        setIsMounted(true)
         if (!socketRef.current) {
             socketRef.current = io()
         }
@@ -174,7 +176,7 @@ export default function RoomPage() {
                 <div>
                     <h2 style={{ fontSize: '1.2rem', marginBottom: '5px' }}>Share Key</h2>
                     <div className={styles.qrContainer}>
-                        <QRCodeSVG value={fullShareUrl} size={150} />
+                        {isMounted && <QRCodeSVG value={fullShareUrl} size={150} />}
                     </div>
                 </div>
 
@@ -275,4 +277,4 @@ export default function RoomPage() {
         </main>
     )
 }
- 
+
