@@ -7,8 +7,8 @@
     width: 100%;
     max-width: 350px;
     /* Standard Wordle size */
-    height: 420px;
     aspect-ratio: 350/420;
+    margin: 0 auto;
 }
 
 .row {
@@ -24,7 +24,7 @@
     justify-content: center;
     align-items: center;
     font-size: 2rem;
-    line-height: 2rem;
+    line-height: 1;
     font-weight: bold;
     vertical-align: middle;
     box-sizing: border-box;
@@ -104,6 +104,8 @@
     user-select: none;
     width: 100%;
     max-width: 500px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .keyboardRow {
@@ -171,9 +173,19 @@
 @media (max-width: 600px) {
     .tile {
         font-size: 1.5rem;
+        border-width: 1px;
     }
 
     .key {
         height: 48px;
+        font-size: 1rem;
+    }
+
+    .keyboardRow {
+        gap: 3px;
+    }
+
+    .keyboard {
+        padding-bottom: 10px;
     }
 }

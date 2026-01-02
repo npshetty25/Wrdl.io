@@ -1,0 +1,243 @@
+/* Main Container */
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.content {
+    z-index: 1;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Title Section */
+.titleContainer {
+    text-align: center;
+}
+
+.title {
+    font-size: 4rem;
+    font-weight: 900;
+    margin: 0;
+    background: linear-gradient(to right, #ffffff, #a0a0a0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
+    letter-spacing: -2px;
+}
+
+.titleSuffix {
+    color: var(--color-correct);
+    -webkit-text-fill-color: var(--color-correct);
+}
+
+.subtitle {
+    color: #888;
+    font-size: 1rem;
+    margin-top: 0.2rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+/* Mode Selection */
+.modeContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    width: 100%;
+    max-width: 800px;
+}
+
+.modeCard {
+    padding: 1.5rem;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.iconWrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+.modeImage {
+    object-fit: contain;
+}
+
+.modeTitle {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.modeDescription {
+    text-align: center;
+    color: #ccc;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Controls Section */
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 400px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.input {
+    padding: 1rem;
+    font-size: 1.1rem;
+    border-radius: 12px;
+    color: white;
+    width: 100%;
+}
+
+.createButton {
+    padding: 1rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    background: linear-gradient(45deg, #538d4e, #7bc675);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(83, 141, 78, 0.4);
+}
+
+.divider {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.line {
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.orText {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.joinContainer {
+    display: flex;
+    gap: 10px;
+}
+
+.joinInput {
+    flex: 2;
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 12px;
+    color: white;
+}
+
+.joinButton {
+    flex: 1;
+    padding: 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+/* Floating Animation */
+.floating {
+    animation: float 6s ease-in-out infinite;
+    text-align: center;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+    .main {
+        padding: 1rem;
+        justify-content: flex-start;
+        padding-top: 4rem;
+    }
+
+    .title {
+        font-size: 3rem;
+    }
+
+    .modeContainer {
+        grid-template-columns: 1fr;
+    }
+
+    .modeCard {
+        flex-direction: row;
+        padding: 1rem;
+        align-items: center;
+        text-align: left;
+    }
+
+    .iconWrapper {
+        width: 60px;
+        height: 60px;
+        flex-shrink: 0;
+    }
+
+    .cardContent {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .modeDescription {
+        text-align: left;
+        display: none;
+        /* Hide description on mobile to save space, or keep it if it fits */
+    }
+
+    .controls {
+        padding: 1.5rem;
+    }
+}

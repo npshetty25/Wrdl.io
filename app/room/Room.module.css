@@ -1,0 +1,208 @@
+.main {
+    display: grid;
+    grid-template-columns: 250px 1fr 300px;
+    height: 100vh;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+    grid-template-areas: "sidebar-left game sidebar-right";
+}
+
+/* Left Sidebar */
+.sidebarLeft {
+    grid-area: sidebar-left;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.qrContainer {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    width: fit-content;
+}
+
+.roomId {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.copyButton {
+    padding: 10px;
+    background: var(--color-present);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: center;
+}
+
+/* Center Game Area */
+.gameArea {
+    grid-area: game;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.notification {
+    position: absolute;
+    top: 20px;
+    background: var(--color-correct);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 50;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.waitingMessage {
+    text-align: center;
+}
+
+/* Right Sidebar */
+.sidebarRight {
+    grid-area: sidebar-right;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: 100%;
+    overflow: hidden;
+}
+
+.playerList {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px;
+    border-radius: 10px;
+    height: 120px;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.playerItem {
+    padding: 5px 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.playerIndicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-correct);
+}
+
+.opponentBoard {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px;
+    border-radius: 10px;
+    height: 180px;
+    flex-shrink: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.opponentBoardWrapper {
+    flex: 1;
+    position: relative;
+}
+
+.opponentBoardScale {
+    transform: scale(0.6);
+    transform-origin: top left;
+    width: 166%;
+    position: absolute;
+}
+
+.chatContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* Mobile Responsive */
+@media (max-width: 900px) {
+    .main {
+        padding: 10px;
+        height: auto;
+        min-height: 100vh;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        grid-template-areas:
+            "game"
+            "sidebar-right"
+            "sidebar-left";
+        gap: 15px;
+    }
+
+    .sidebarLeft {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .qrContainer {
+        display: none;
+        /* Hide QR on mobile */
+    }
+
+    .gameArea {
+        min-height: 60vh;
+    }
+
+    .sidebarRight {
+        height: 500px;
+        /* Fixed height for chat area on mobile */
+    }
+}
+
+@media (max-width: 600px) {
+    .main {
+        padding: 5px;
+    }
+
+    .sidebarRight {
+        height: auto;
+    }
+
+    .playerList {
+        height: auto;
+        max-height: 100px;
+    }
+
+    .opponentBoard {
+        display: none;
+        /* Hide opponent board on very small screens or move it */
+    }
+}

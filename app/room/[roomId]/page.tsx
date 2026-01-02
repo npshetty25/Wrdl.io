@@ -9,7 +9,7 @@ import OpponentBoard from '@/components/OpponentBoard'
 import Chat from '@/components/Chat'
 import Modal from '@/components/Modal'
 import Timer from '@/components/Timer'
-import styles from '@/styles/Game.module.css'
+import styles from '../Room.module.css'
 
 interface Player {
     id: string
@@ -168,28 +168,19 @@ export default function RoomPage() {
     const fullShareUrl = `${shareUrl}?mode=${mode}`; // Ensure mode is preserved in QR
 
     return (
-        <main style={{
-            display: 'grid',
-            gridTemplateColumns: '250px 1fr 300px',
-            height: '100vh',
-            gap: '20px',
-            padding: '20px',
-            maxWidth: '1600px',
-            margin: '0 auto',
-            gridTemplateAreas: '"sidebar-left game sidebar-right"'
-        }}>
+        <main className={styles.main}>
             {/* Left Sidebar: Info */}
-            <aside style={{ gridArea: 'sidebar-left', display: 'flex', flexDirection: 'column', gap: '20px', background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '10px' }}>
+            <aside className={styles.sidebarLeft}>
                 <div>
                     <h2 style={{ fontSize: '1.2rem', marginBottom: '5px' }}>Share Key</h2>
-                    <div style={{ background: 'white', padding: '10px', borderRadius: '8px', width: 'fit-content' }}>
+                    <div className={styles.qrContainer}>
                         <QRCodeSVG value={fullShareUrl} size={150} />
                     </div>
                 </div>
 
                 <div>
                     <p style={{ fontSize: '0.9rem', color: '#aaa', margin: 0 }}>Room Code</p>
-                    <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{roomId}</div>
+                    <div className={styles.roomId}>{roomId}</div>
                 </div>
 
                 {gameState === 'playing' && startTime > 0 && (
@@ -199,11 +190,7 @@ export default function RoomPage() {
                     </div>
                 )}
 
-                <button onClick={copyLink} style={{
-                    padding: '10px', background: 'var(--color-present)',
-                    color: 'white', border: 'none', borderRadius: '5px',
-                    cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px', justifyContent: 'center'
-                }}>
+                <button onClick={copyLink} className={styles.copyButton}>
                     🔗 Copy Link
                 </button>
 
@@ -216,16 +203,10 @@ export default function RoomPage() {
             </aside>
 
             {/* Center: Game */}
-            <section style={{ gridArea: 'game', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+            <section className={styles.gameArea}>
                 {/* Notification Toast */}
                 {notification && (
-                    <div style={{
-                        position: 'absolute', top: '20px',
-                        background: 'var(--color-correct)', color: 'white',
-                        padding: '10px 20px', borderRadius: '20px',
-                        boxShadow: '0 4px 10px rgba(0,0,0,0.3)', zIndex: 50,
-                        animation: 'fadeIn 0.3s ease'
-                    }}>
+                    <div className={styles.notification}>
                         {notification}
                     </div>
                 )}
@@ -240,7 +221,7 @@ export default function RoomPage() {
                         forcedGuesses={mode === 'coop' ? sharedGuesses : undefined}
                     />
                 ) : (
-                    <div style={{ textAlign: 'center' }}>
+                    <div className={styles.waitingMessage}>
                         <h2>Waiting for players...</h2>
                         {mode === 'competitive' && <p>Competitive mode requires 2 players.</p>}
                     </div>
@@ -248,18 +229,15 @@ export default function RoomPage() {
             </section>
 
             {/* Right Sidebar: Chat & Players */}
-            <aside style={{ gridArea: 'sidebar-right', display: 'flex', flexDirection: 'column', gap: '15px', height: '100%', overflow: 'hidden' }}>
+            <aside className={styles.sidebarRight}>
 
                 {/* Player List (Compact) */}
-                <div style={{ background: 'rgba(255,255,255,0.05)', padding: '10px', borderRadius: '10px', height: '120px', overflowY: 'auto', flexShrink: 0 }}>
+                <div className={styles.playerList}>
                     <h3 style={{ marginTop: 0, fontSize: '1rem', marginBottom: '8px' }}>Players ({players.length})</h3>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
                         {players.map(p => (
-                            <div key={p.id} style={{
-                                padding: '5px 8px', background: 'rgba(255,255,255,0.1)',
-                                borderRadius: '15px', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem'
-                            }}>
-                                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--color-correct)' }} />
+                            <div key={p.id} className={styles.playerItem}>
+                                <div className={styles.playerIndicator} />
                                 <span>{p.username} {p.id === socketRef.current?.id ? '(You)' : ''}</span>
                             </div>
                         ))}
@@ -268,11 +246,11 @@ export default function RoomPage() {
 
                 {/* Opponent Board (Compact, Scaled) */}
                 {mode === 'competitive' && gameState === 'playing' && (
-                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: '10px', borderRadius: '10px', height: '180px', flexShrink: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                    <div className={styles.opponentBoard}>
                         <h4 style={{ margin: '0 0 5px 0', fontSize: '0.9rem' }}>Opponent</h4>
                         {/* Wrapper for scaling */}
-                        <div style={{ flex: 1, position: 'relative' }}>
-                            <div style={{ transform: 'scale(0.6)', transformOrigin: 'top left', width: '166%', position: 'absolute' }}>
+                        <div className={styles.opponentBoardWrapper}>
+                            <div className={styles.opponentBoardScale}>
                                 <OpponentBoard guesses={opponentGuesses} solution={solution} />
                             </div>
                         </div>
@@ -280,7 +258,7 @@ export default function RoomPage() {
                 )}
 
                 {/* Chat (Takes remaining space) */}
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: '0', overflow: 'hidden' }}>
+                <div className={styles.chatContainer}>
                     <Chat socket={socketRef.current} roomId={roomId as string} username={username} />
                 </div>
             </aside>
