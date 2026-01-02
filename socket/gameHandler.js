@@ -91,14 +91,26 @@ module.exports = (io) => {
         socket.on('play_again', ({ roomId }) => {
             const room = rooms.get(roomId);
             if (room) {
-                room.solution = WORDS_LIST[Math.floor(Math.random() * WORDS_LIST.length)];
-                room.guesses = [];
-                room.startTime = Date.now();
-                io.to(roomId).emit('game_start', {
-                    solution: room.solution,
-                    initialGuesses: [],
-                    startTime: room.startTime
-                });
+                if (!room.rematchVotes) room.rematchVotes = new Set();
+                room.rematchVotes.add(socket.id);
+
+                if (room.rematchVotes.size >= room.players.length) {
+                    // Everyone ready
+                    room.solution = WORDS_LIST[Math.floor(Math.random() * WORDS_LIST.length)];
+                    room.guesses = [];
+                    room.startTime = Date.now();
+                    room.rematchVotes.clear();
+
+                    io.to(roomId).emit('game_start', {
+                        solution: room.solution,
+                        initialGuesses: [],
+                        startTime: room.startTime
+                    });
+                } else {
+                    // Notify sender they are waiting
+                    socket.emit('rematch_waiting');
+                    // Optional: notify others "Player X wants a rematch"
+                }
             }
         });
 

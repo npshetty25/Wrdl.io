@@ -36,7 +36,14 @@ export default function RoomPage() {
     const [sharedGuesses, setSharedGuesses] = useState<string[]>([])
 
     const [modalOpen, setModalOpen] = useState(false)
-    const [modalContent, setModalContent] = useState({ title: '', message: '', gifUrl: '', soundUrl: '' })
+    interface ModalContent {
+        title: string
+        message: string
+        gifUrl?: string
+        soundUrl?: string
+        actionLabel?: string
+    }
+    const [modalContent, setModalContent] = useState<ModalContent>({ title: '', message: '', actionLabel: 'Play Again' })
     const [notification, setNotification] = useState<string | null>(null)
     const [isMounted, setIsMounted] = useState(false)
 
@@ -123,6 +130,11 @@ export default function RoomPage() {
 
         socket.on('error_full', (msg) => {
             alert(msg);
+        })
+
+        socket.on('rematch_waiting', () => {
+            setModalContent(prev => ({ ...prev, title: 'Waiting...', message: 'Waiting for opponent to accept rematch...', actionLabel: undefined }))
+            setModalOpen(true)
         })
 
         return () => {
@@ -339,7 +351,7 @@ export default function RoomPage() {
                         message={modalContent.message}
                         gifUrl={modalContent.gifUrl}
                         soundUrl={modalContent.soundUrl}
-                        actionLabel="Play Again"
+                        actionLabel={modalContent.actionLabel}
                         onAction={handleRematch}
                         onClose={() => setModalOpen(false)}
                     />
