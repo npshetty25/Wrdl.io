@@ -175,8 +175,13 @@ export default function RoomPage() {
             <aside className={styles.sidebarLeft}>
                 <div>
                     <h2 style={{ fontSize: '1.2rem', marginBottom: '5px' }}>Share Key</h2>
-                    <div className={styles.qrContainer}>
-                        {isMounted && <QRCodeSVG value={fullShareUrl} size={100} />}
+                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <div className={styles.qrContainer}>
+                            {isMounted && <QRCodeSVG value={fullShareUrl} size={100} />}
+                        </div>
+                        <button onClick={copyLink} className={styles.copyButton}>
+                            🔗 Copy
+                        </button>
                     </div>
                 </div>
 
@@ -192,9 +197,6 @@ export default function RoomPage() {
 
 
 
-                <button onClick={copyLink} className={styles.copyButton}>
-                    🔗 Copy Link
-                </button>
             </aside>
 
             {/* Center: Game */}
