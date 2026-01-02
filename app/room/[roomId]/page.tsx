@@ -97,7 +97,8 @@ export default function RoomPage() {
                     title: 'Victory!',
                     message: `Team won! Word: ${revealSolution}`,
                     gifUrl: '/images/win.gif',
-                    soundUrl: '/sounds/win.mp3'
+                    soundUrl: '/sounds/win.mp3',
+                    actionLabel: 'Play Again'
                 })
                 setModalOpen(true)
             } else if (winner === 'None') {
@@ -105,7 +106,8 @@ export default function RoomPage() {
                     title: 'Defeat',
                     message: `Out of turns! Word: ${revealSolution}`,
                     gifUrl: '/images/lose.gif',
-                    soundUrl: '/sounds/lose.mp3'
+                    soundUrl: '/sounds/lose.mp3',
+                    actionLabel: 'Play Again'
                 })
                 setModalOpen(true)
             } else if (winner === socket.id) {
@@ -114,7 +116,8 @@ export default function RoomPage() {
                     title: 'You Won!',
                     message: `Excellent work!`,
                     gifUrl: '/images/win.gif',
-                    soundUrl: '/sounds/win.mp3'
+                    soundUrl: '/sounds/win.mp3',
+                    actionLabel: 'Play Again'
                 })
                 setModalOpen(true)
             } else {
@@ -122,7 +125,8 @@ export default function RoomPage() {
                     title: 'Game Over',
                     message: `Opponent won! Word: ${revealSolution}`,
                     gifUrl: '/images/lose.gif',
-                    soundUrl: '/sounds/lose.mp3'
+                    soundUrl: '/sounds/lose.mp3',
+                    actionLabel: 'Play Again'
                 })
                 setModalOpen(true)
             }
@@ -154,7 +158,8 @@ export default function RoomPage() {
                 title: 'You Won!',
                 message: `Excellent work!`,
                 gifUrl: '/images/win.gif',
-                soundUrl: '/sounds/win.mp3'
+                soundUrl: '/sounds/win.mp3',
+                actionLabel: 'Play Again'
             })
             setModalOpen(true)
         } else {
