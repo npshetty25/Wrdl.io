@@ -190,7 +190,9 @@
     }
 
     .qrContainer {
-        display: none;
+        display: block;
+        /* Show QR on mobile if requested */
+        margin-bottom: 10px;
     }
 
     .sidebarRight {

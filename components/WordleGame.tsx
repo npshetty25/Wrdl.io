@@ -146,7 +146,7 @@ export default function WordleGame({ initialSolution, socket, roomId, onGameOver
     }
 
     return (
-        <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
             {message && <div style={{
                 position: 'absolute', top: '10%', background: 'black', color: 'white', padding: '10px 20px', borderRadius: '5px', zIndex: 10
             }}>{message}</div>}
