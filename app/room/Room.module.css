@@ -17,7 +17,20 @@
     gap: 20px;
     background: rgba(255, 255, 255, 0.05);
     padding: 20px;
+    padding: 20px;
     border-radius: 10px;
+}
+
+.desktopInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.mobileInfo {
+    display: none;
+    width: 100%;
 }
 
 .qrContainer {
@@ -171,6 +184,14 @@
         flex-wrap: wrap;
         align-items: center;
         justify-content: space-between;
+    }
+
+    .desktopInfo {
+        display: none;
+    }
+
+    .mobileInfo {
+        display: block;
     }
 
     /* QR Code remains visible on Tablet/Desktop, hidden on mobile below */
