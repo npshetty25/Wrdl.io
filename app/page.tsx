@@ -1,4 +1,5 @@
-'use client'
+'use client' // responsive
+
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
