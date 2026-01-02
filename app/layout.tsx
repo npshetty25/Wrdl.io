@@ -12,12 +12,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-title: "Wrdl.io",
+export const metadata: Metadata = {
+  title: "Wrdl.io",
   description: "Real-time Multiplayer Wordle",
 };
 
-export const viewport: Metadata = {
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0",
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
   themeColor: "#000000",
 };
 
