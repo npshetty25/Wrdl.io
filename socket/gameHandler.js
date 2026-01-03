@@ -109,7 +109,12 @@ module.exports = (io) => {
                 } else {
                     // Notify sender they are waiting
                     socket.emit('rematch_waiting');
-                    // Optional: notify others "Player X wants a rematch"
+
+                    // Notify others "Player X wants a rematch"
+                    const player = room.players.find(p => p.id === socket.id);
+                    if (player) {
+                        socket.to(roomId).emit('rematch_requested', player.username);
+                    }
                 }
             }
         });

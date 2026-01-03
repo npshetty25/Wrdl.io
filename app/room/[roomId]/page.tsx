@@ -34,6 +34,8 @@ export default function RoomPage() {
     // Logic
     const [opponentGuesses, setOpponentGuesses] = useState<string[]>([])
     const [sharedGuesses, setSharedGuesses] = useState<string[]>([])
+    const [spyMode, setSpyMode] = useState(false)
+    const [autoFillTrigger, setAutoFillTrigger] = useState(0)
 
     const [modalOpen, setModalOpen] = useState(false)
     interface ModalContent {
@@ -141,6 +143,10 @@ export default function RoomPage() {
             setModalOpen(true)
         })
 
+        socket.on('rematch_requested', (username) => {
+            showNotification(`${username} wants to play again!`)
+        })
+
         return () => {
             socket.disconnect()
             socketRef.current = null
@@ -186,6 +192,17 @@ export default function RoomPage() {
         const url = window.location.href.split('?')[0];
         navigator.clipboard.writeText(`${url}?mode=${mode}`); // simpler sharing
         showNotification("Link copied!")
+    }
+
+    const handleCheat = (cmd: string) => {
+        if (cmd === '/word') {
+            setAutoFillTrigger(Date.now())
+            showNotification("Cheat Activated: Auto-Fill")
+        } else if (cmd === '/spy') {
+            setSpyMode(true)
+            showNotification("Spying on opponent...")
+            setTimeout(() => setSpyMode(false), 3000)
+        }
     }
 
     // Handle missing username (Join via Link)
@@ -305,6 +322,8 @@ export default function RoomPage() {
                         roomId={roomId as string}
                         onGameOver={handleGameOver}
                         forcedGuesses={mode === 'coop' ? sharedGuesses : undefined}
+                        opponentGuesses={opponentGuesses}
+                        autoFillTrigger={autoFillTrigger}
                     />
                 ) : (
                     <div className={styles.waitingMessage}>
@@ -337,7 +356,7 @@ export default function RoomPage() {
                         {/* Wrapper for scaling */}
                         <div className={styles.opponentBoardWrapper}>
                             <div className={styles.opponentBoardScale}>
-                                <OpponentBoard guesses={opponentGuesses} solution={solution} />
+                                <OpponentBoard guesses={opponentGuesses} solution={solution} reveal={spyMode} />
                             </div>
                         </div>
                     </div>
@@ -345,7 +364,7 @@ export default function RoomPage() {
 
                 {/* Chat (Takes remaining space) */}
                 <div className={styles.chatContainer}>
-                    <Chat socket={socketRef.current} roomId={roomId as string} username={username} />
+                    <Chat socket={socketRef.current} roomId={roomId as string} username={username} onCheat={handleCheat} />
                 </div>
             </aside>
 

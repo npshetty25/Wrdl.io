@@ -12,9 +12,11 @@ interface WordleGameProps {
     roomId?: string
     onGameOver?: (result: 'win' | 'loss') => void
     forcedGuesses?: string[]
+    opponentGuesses?: string[]
+    autoFillTrigger?: number
 }
 
-export default function WordleGame({ initialSolution, socket, roomId, onGameOver, forcedGuesses }: WordleGameProps) {
+export default function WordleGame({ initialSolution, socket, roomId, onGameOver, forcedGuesses, opponentGuesses, autoFillTrigger }: WordleGameProps) {
     const [internalGuesses, setInternalGuesses] = useState<string[]>([])
 
     // Use forcedGuesses if provided, else internal state
@@ -38,6 +40,13 @@ export default function WordleGame({ initialSolution, socket, roomId, onGameOver
             }
         }
     }, [forcedGuesses, initialSolution]);
+
+    // Handle Auto Fill Cheat
+    useEffect(() => {
+        if (autoFillTrigger && autoFillTrigger > 0) {
+            setCurrentGuess(initialSolution)
+        }
+    }, [autoFillTrigger, initialSolution])
 
     // Update Keys when guesses change
     useEffect(() => {

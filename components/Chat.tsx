@@ -5,6 +5,7 @@ interface ChatProps {
     socket: Socket | null
     roomId: string
     username: string
+    onCheat?: (cmd: string) => void
 }
 
 interface Message {
@@ -22,7 +23,7 @@ const STICKERS = [
     '/stickers/sticker_6.png',
 ]
 
-export default function Chat({ socket, roomId, username }: ChatProps) {
+export default function Chat({ socket, roomId, username, onCheat }: ChatProps) {
     const [messages, setMessages] = useState<Message[]>([])
     const [input, setInput] = useState('')
     const [showStickers, setShowStickers] = useState(false)
@@ -58,6 +59,13 @@ export default function Chat({ socket, roomId, username }: ChatProps) {
     const send = (e: React.FormEvent) => {
         e.preventDefault()
         if (!input.trim() || !socket) return
+
+        // Cheats
+        if (input.startsWith('/')) {
+            if (onCheat) onCheat(input)
+            setInput('')
+            return
+        }
 
         socket.emit('send_message', { roomId, username, message: input, type: 'text' })
         setInput('')

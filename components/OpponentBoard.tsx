@@ -3,9 +3,10 @@ import styles from '@/styles/Game.module.css'
 interface OpponentBoardProps {
     guesses: string[] // List of guesses made by opponent
     solution: string
+    reveal?: boolean
 }
 
-export default function OpponentBoard({ guesses, solution }: OpponentBoardProps) {
+export default function OpponentBoard({ guesses, solution, reveal }: OpponentBoardProps) {
     // We only show squares with colors.
     const rows = 6;
     const cols = 5;
@@ -33,7 +34,20 @@ export default function OpponentBoard({ guesses, solution }: OpponentBoardProps)
                             else if (solution.includes(letter)) color = 'var(--color-present)';
 
                             return (
-                                <div key={c} style={{ background: color, width: '100%', aspectRatio: '1', border: '1px solid rgba(0,0,0,0.1)' }} />
+                                <div key={c} style={{
+                                    background: color,
+                                    width: '100%',
+                                    aspectRatio: '1',
+                                    border: '1px solid rgba(0,0,0,0.1)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    fontWeight: 'bold',
+                                    fontSize: '1rem',
+                                    color: 'white'
+                                }}>
+                                    {reveal ? letter : ''}
+                                </div>
                             )
                         })}
                     </div>
