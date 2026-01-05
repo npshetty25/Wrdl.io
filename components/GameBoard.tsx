@@ -6,9 +6,10 @@ interface GameBoardProps {
     currentGuess: string
     turn: number
     solution: string
+    isShaking?: boolean
 }
 
-export default function GameBoard({ guesses, currentGuess, turn, solution }: GameBoardProps) {
+export default function GameBoard({ guesses, currentGuess, turn, solution, isShaking }: GameBoardProps) {
     return (
         <div className={styles.board}>
             {Array.from({ length: 6 }).map((_, i) => {
@@ -16,7 +17,7 @@ export default function GameBoard({ guesses, currentGuess, turn, solution }: Gam
                     return <Row key={i} guess={guesses[i]} isCurrentRow={false} solution={solution} />
                 }
                 if (i === turn) {
-                    return <Row key={i} guess="" currentGuess={currentGuess} isCurrentRow={true} />
+                    return <Row key={i} guess="" currentGuess={currentGuess} isCurrentRow={true} shake={isShaking} />
                 }
                 return <Row key={i} guess="" isCurrentRow={false} />
             })}

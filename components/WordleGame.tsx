@@ -4,7 +4,10 @@ import { useEffect, useState, useRef } from 'react'
 import GameBoard from './GameBoard'
 import Keyboard from './Keyboard'
 import { checkGuess, WORDS } from '@/lib/wordUtils'
+
 import { Socket } from 'socket.io-client'
+import confetti from 'canvas-confetti'
+import toast, { Toaster } from 'react-hot-toast'
 
 interface WordleGameProps {
     initialSolution: string
@@ -26,6 +29,7 @@ export default function WordleGame({ initialSolution, socket, roomId, onGameOver
     const [turn, setTurn] = useState(0)
     const [isCorrect, setIsCorrect] = useState(false)
     const [usedKeys, setUsedKeys] = useState<Record<string, string>>({})
+    const [isShaking, setIsShaking] = useState(false)
     const [message, setMessage] = useState('')
 
     const isGameOver = isCorrect || turn > 5;
@@ -96,11 +100,15 @@ export default function WordleGame({ initialSolution, socket, roomId, onGameOver
 
     const submitGuess = () => {
         if (currentGuess.length !== 5) {
-            showMessage("Not enough letters")
+            toast.error("Not enough letters")
+            setIsShaking(true)
+            setTimeout(() => setIsShaking(false), 600)
             return
         }
         if (!WORDS.includes(currentGuess)) {
-            showMessage("Word not found")
+            toast.error("Word not found")
+            setIsShaking(true)
+            setTimeout(() => setIsShaking(false), 600)
             return
         }
 
@@ -114,10 +122,15 @@ export default function WordleGame({ initialSolution, socket, roomId, onGameOver
         const won = currentGuess === initialSolution
         if (won) {
             setIsCorrect(true)
-            showMessage("Splendid!")
+            toast.success("Splendid!", { duration: 3000 })
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            })
             if (onGameOver) onGameOver('win')
         } else if (turn >= 5) {
-            showMessage(`Game Over! Word was ${initialSolution}`)
+            toast.error(`Game Over! Word was ${initialSolution}`, { duration: 4000 })
             if (onGameOver) onGameOver('loss')
         }
 
@@ -156,11 +169,8 @@ export default function WordleGame({ initialSolution, socket, roomId, onGameOver
 
     return (
         <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-            {message && <div style={{
-                position: 'absolute', top: '10%', background: 'black', color: 'white', padding: '10px 20px', borderRadius: '5px', zIndex: 10
-            }}>{message}</div>}
-
-            <GameBoard guesses={guesses} currentGuess={currentGuess} turn={turn} solution={initialSolution} />
+            <Toaster position="top-center" />
+            <GameBoard guesses={guesses} currentGuess={currentGuess} turn={turn} solution={initialSolution} isShaking={isShaking} />
 
             <Keyboard
                 onChar={onChar}

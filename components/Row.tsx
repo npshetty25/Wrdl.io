@@ -7,9 +7,10 @@ interface RowProps {
     currentGuess?: string
     isCurrentRow: boolean
     solution?: string
+    shake?: boolean
 }
 
-export default function Row({ guess, currentGuess, isCurrentRow, solution }: RowProps) {
+export default function Row({ guess, currentGuess, isCurrentRow, solution, shake }: RowProps) {
     const wordLength = 5;
 
     if (isCurrentRow) {
@@ -17,7 +18,7 @@ export default function Row({ guess, currentGuess, isCurrentRow, solution }: Row
         const empty = Array(wordLength - letters.length).fill('');
 
         return (
-            <div className={styles.row}>
+            <div className={`${styles.row} ${shake ? styles.shaking : ''}`}>
                 {letters.map((letter, i) => (
                     <Tile key={i} letter={letter} />
                 ))}
