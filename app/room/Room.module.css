@@ -208,12 +208,48 @@
 @media (max-width: 600px) {
     .main {
         padding: 5px;
+        overflow-x: hidden;
+    }
+
+    .sidebarLeft {
+        overflow-x: hidden;
+        overflow-y: visible;
+        padding: 6px;
     }
 
     .qrContainer {
         display: block;
-        /* Show QR on mobile if requested */
-        margin-bottom: 10px;
+        margin-bottom: 0;
+    }
+
+    .mobileInfo {
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: visible;
+    }
+
+    .mobileInfoRow {
+        display: flex;
+        width: 100%;
+        gap: 0;
+    }
+
+    .mobileQrSection {
+        width: 30%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px;
+    }
+
+    .mobileInfoSection {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        padding: 6px;
     }
 
     .sidebarRight {
@@ -225,7 +261,77 @@
         max-height: 100px;
     }
 
-    .opponentBoard {
+    /* Hide opponent board in right sidebar on mobile */
+    .sidebarRight .opponentBoard {
         display: none;
+    }
+
+    .chatContainer {
+        flex: 1 1 100%;
+        min-width: 100%;
+    }
+}
+
+/* Styles for mobile opponent board in top section */
+.mobileOpponentBoard {
+    display: none;
+}
+
+.mobileInfoRow {
+    display: none;
+}
+
+.mobileQrSection {
+    display: none;
+}
+
+.mobileInfoSection {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .mobileInfoRow {
+        display: flex;
+    }
+
+    .mobileQrSection {
+        display: flex;
+    }
+
+    .mobileInfoSection {
+        display: flex;
+    }
+
+    .mobileOpponentBoard {
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 6px;
+        border-radius: 8px;
+    }
+
+    .mobileOpponentBoard h4 {
+        margin: 0 0 4px 0;
+        font-size: 0.7rem;
+        text-align: center;
+        white-space: nowrap;
+        padding: 0;
+    }
+
+    .mobileOpponentBoardWrapper {
+        position: relative;
+        width: 114px;
+        height: 137px;
+        overflow: hidden;
+    }
+
+    .mobileOpponentBoardScale {
+        transform: scale(0.57);
+        transform-origin: top left;
+        width: 200px;
+        height: 240px;
     }
 }

@@ -241,32 +241,45 @@ export default function RoomPage() {
             <aside className={styles.sidebarLeft}>
                 {/* --- Mobile Layout (Shown < 900px) --- */}
                 <div className={styles.mobileInfo}>
-                    <div style={{ display: 'flex', gap: '15px', alignItems: 'center', width: '100%' }}>
-                        {/* Left: QR */}
-                        <div className={styles.qrContainer} style={{ background: 'white', padding: '5px', borderRadius: '5px', flexShrink: 0 }}>
-                            {isMounted && <QRCodeSVG value={fullShareUrl} size={90} />}
+                    <div className={styles.mobileInfoRow}>
+                        {/* Left: QR - 30% */}
+                        <div className={styles.mobileQrSection}>
+                            <div className={styles.qrContainer} style={{ background: 'white', padding: '5px', borderRadius: '5px' }}>
+                                {isMounted && <QRCodeSVG value={fullShareUrl} size={70} />}
+                            </div>
                         </div>
 
-                        {/* Right: Info Stack */}
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', flex: 1 }}>
-
+                        {/* Center: Info Stack - 30% */}
+                        <div className={styles.mobileInfoSection}>
                             {/* Mode */}
                             <div>
-                                <p style={{ fontSize: '0.8rem', color: '#aaa', margin: 0 }}>Mode</p>
-                                <div style={{ fontWeight: 'bold', fontSize: '0.95rem' }}>{mode === 'coop' ? 'Cooperative' : 'Competitive'}</div>
+                                <p style={{ fontSize: '0.65rem', color: '#aaa', margin: 0 }}>Mode</p>
+                                <div style={{ fontWeight: 'bold', fontSize: '0.75rem' }}>{mode === 'coop' ? 'Coop' : 'Comp'}</div>
                             </div>
 
                             {/* Room Code */}
                             <div>
-                                <p style={{ fontSize: '0.8rem', color: '#aaa', margin: 0 }}>Room Code</p>
-                                <div className={styles.roomId} style={{ fontSize: '1.1rem' }}>{roomId}</div>
+                                <p style={{ fontSize: '0.65rem', color: '#aaa', margin: 0 }}>Code</p>
+                                <div className={styles.roomId} style={{ fontSize: '0.85rem' }}>{roomId}</div>
                             </div>
 
                             {/* Copy Link */}
-                            <button onClick={copyLink} className={styles.copyButton} style={{ padding: '8px', fontSize: '0.9rem', width: 'fit-content' }}>
-                                🔗 Copy Link
+                            <button onClick={copyLink} className={styles.copyButton} style={{ padding: '5px 6px', fontSize: '0.7rem' }}>
+                                🔗 Copy
                             </button>
                         </div>
+
+                        {/* Right: Opponent Board - 40% (Mobile Only) */}
+                        {mode === 'competitive' && gameState === 'playing' && (
+                            <div className={styles.mobileOpponentBoard}>
+                                <h4>Opponent</h4>
+                                <div className={styles.mobileOpponentBoardWrapper}>
+                                    <div className={styles.mobileOpponentBoardScale}>
+                                        <OpponentBoard guesses={opponentGuesses} solution={solution} reveal={spyMode} />
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
 
