@@ -15,6 +15,9 @@ app.prepare().then(() => {
     const gameHandler = require('./socket/gameHandler');
     gameHandler(io);
 
+    // Serve static files from 'public' directory to ensure audio files are accessible
+    server.use(express.static('public'));
+
     // io.on('connection'... removed as it is handled in gameHandler
 
     server.all('*all', (req, res) => {
