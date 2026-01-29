@@ -29,7 +29,7 @@ module.exports = (io) => {
 
             if (room.players.length < maxPlayers) {
                 if (!room.players.find(p => p.id === socket.id)) {
-                    room.players.push({ id: socket.id, username, score: 0 });
+                    room.players.push({ id: socket.id, username, score: 0, completed: false });
                     socket.join(roomId);
                 }
 
@@ -78,8 +78,22 @@ module.exports = (io) => {
                 }
             } else {
                 socket.to(roomId).emit('opponent_guess', { guess, turn, isCorrect });
+                
+                // Track if this player failed
+                if (!isCorrect && turn >= 6) {
+                    const player = room.players.find(p => p.id === socket.id);
+                    if (player) player.completed = true;
+                }
+
                 if (isCorrect) {
-                    io.to(roomId).emit('game_over', { winner: socket.id, solution: room.solution });
+                     io.to(roomId).emit('game_over', { winner: socket.id, solution: room.solution });
+                } else {
+                     // Check if ALL players have failed
+                     // In competitive, we carry on until someone wins or EVERYONE loses
+                     const allFailed = room.players.length === 2 && room.players.every(p => p.completed);
+                     if (allFailed) {
+                         io.to(roomId).emit('game_over', { winner: 'None', solution: room.solution });
+                     }
                 }
             }
         });
@@ -100,6 +114,8 @@ module.exports = (io) => {
                     room.guesses = [];
                     room.startTime = Date.now();
                     room.rematchVotes.clear();
+                    // Reset completion status
+                    room.players.forEach(p => p.completed = false);
 
                     io.to(roomId).emit('game_start', {
                         solution: room.solution,
