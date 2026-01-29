@@ -105,9 +105,9 @@ export default function RoomPage() {
                 setModalOpen(true)
             } else if (winner === 'None') {
                 setModalContent({
-                    title: 'Defeat',
-                    message: `Out of turns! Word: ${revealSolution}`,
-                    gifUrl: '/images/lose.gif',
+                    title: 'Draw',
+                    message: `CHEEE..... both of u lost . Word: ${revealSolution}`,
+                    gifUrl: '/images/sticker.png',
                     soundUrl: '/sounds/lose.mp3',
                     actionLabel: 'Play Again'
                 })
