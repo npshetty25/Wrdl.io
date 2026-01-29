@@ -16,15 +16,30 @@ export default function Modal({ title, message, gifUrl, soundUrl, actionLabel, o
 
     useEffect(() => {
         let mounted = true;
+        let playCount = 0;
+        const maxPlays = 5;
+
         if (soundUrl) {
             audioRef.current = new Audio(soundUrl)
-            audioRef.current.loop = true
-            const playPromise = audioRef.current.play();
+            
+            const handleEnded = () => {
+                playCount++;
+                if (playCount < maxPlays && mounted && audioRef.current) {
+                    const playPromise = audioRef.current.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(e => {
+                            if (!mounted || e.name === 'AbortError') return;
+                            console.error("Audio replay failed", e)
+                        })
+                    }
+                }
+            };
 
+            audioRef.current.addEventListener('ended', handleEnded);
+
+            const playPromise = audioRef.current.play();
             if (playPromise !== undefined) {
                 playPromise.catch(e => {
-                    // Auto-play was prevented or interrupted by pause()
-                    // If interrupted by unmount (pause), we can ignore safely
                     if (!mounted || e.name === 'AbortError') return;
                     console.error("Audio play failed", e)
                 })
