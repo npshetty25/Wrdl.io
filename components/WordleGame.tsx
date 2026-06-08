@@ -1,9 +1,11 @@
 'use client'
+/* eslint-disable react-hooks/set-state-in-effect */
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import GameBoard from './GameBoard'
 import Keyboard from './Keyboard'
 import { checkGuess, WORDS } from '@/lib/wordUtils'
+import styles from '@/styles/Game.module.css'
 
 import { Socket } from 'socket.io-client'
 import confetti from 'canvas-confetti'
@@ -15,11 +17,10 @@ interface WordleGameProps {
     roomId?: string
     onGameOver?: (result: 'win' | 'loss') => void
     forcedGuesses?: string[]
-    opponentGuesses?: string[]
     autoFillTrigger?: number
 }
 
-export default function WordleGame({ initialSolution, socket, roomId, onGameOver, forcedGuesses, opponentGuesses, autoFillTrigger }: WordleGameProps) {
+export default function WordleGame({ initialSolution, socket, roomId, onGameOver, forcedGuesses, autoFillTrigger }: WordleGameProps) {
     const [internalGuesses, setInternalGuesses] = useState<string[]>([])
 
     // Use forcedGuesses if provided, else internal state
@@ -30,7 +31,7 @@ export default function WordleGame({ initialSolution, socket, roomId, onGameOver
     const [isCorrect, setIsCorrect] = useState(false)
     const [usedKeys, setUsedKeys] = useState<Record<string, string>>({})
     const [isShaking, setIsShaking] = useState(false)
-    const [message, setMessage] = useState('')
+    
 
     const isGameOver = isCorrect || turn > 5;
 
@@ -68,37 +69,9 @@ export default function WordleGame({ initialSolution, socket, roomId, onGameOver
         setUsedKeys(newKeys)
     }, [guesses, initialSolution])
 
-    // Handle Input
-    useEffect(() => {
-        const handleKeyup = (e: KeyboardEvent) => {
-            if (isGameOver) return
-
-            // Ignore if typing in input/textarea
-            const activeTag = document.activeElement?.tagName.toLowerCase();
-            if (activeTag === 'input' || activeTag === 'textarea') return;
-
-            const key = e.key.toUpperCase()
-
-            if (key === 'ENTER') {
-                submitGuess()
-            } else if (key === 'BACKSPACE') {
-                setCurrentGuess(prev => prev.slice(0, -1))
-            } else if (/^[A-Z]$/.test(key)) {
-                if (currentGuess.length < 5) {
-                    setCurrentGuess(prev => prev + key)
-                }
-            }
-        }
-
-        window.addEventListener('keyup', handleKeyup)
-        return () => window.removeEventListener('keyup', handleKeyup)
-    }, [currentGuess, isGameOver]) // Removed 'turn' dep as submitGuess uses ref/latest state? No, submitGuess closes over state.
-
     // We need to fix submitGuess closure issue.
-    // Actually, simpler to just use current vars, but re-attach listener on every render is fine for this app.
-    // The dependency array handles re-attachment.
-
-    const submitGuess = () => {
+    // Use a function declaration so it's hoisted for handlers attached earlier.
+    function submitGuess() {
         if (currentGuess.length !== 5) {
             toast.error("Not enough letters")
             setIsShaking(true)
@@ -147,10 +120,35 @@ export default function WordleGame({ initialSolution, socket, roomId, onGameOver
         setCurrentGuess('')
     }
 
-    const showMessage = (msg: string) => {
-        setMessage(msg)
-        setTimeout(() => setMessage(''), 2000)
-    }
+    // Handle Input
+    useEffect(() => {
+        const handleKeyup = (e: KeyboardEvent) => {
+            if (isGameOver) return
+
+            // Ignore if typing in input/textarea
+            const activeTag = document.activeElement?.tagName.toLowerCase();
+            if (activeTag === 'input' || activeTag === 'textarea') return;
+
+            const key = e.key.toUpperCase()
+
+            if (key === 'ENTER') {
+                submitGuess()
+            } else if (key === 'BACKSPACE') {
+                setCurrentGuess(prev => prev.slice(0, -1))
+            } else if (/^[A-Z]$/.test(key)) {
+                if (currentGuess.length < 5) {
+                    setCurrentGuess(prev => prev + key)
+                }
+            }
+        }
+
+        window.addEventListener('keyup', handleKeyup)
+        return () => window.removeEventListener('keyup', handleKeyup)
+    }, [currentGuess, isGameOver, submitGuess])
+
+    // duplicate removed
+
+    
 
     const onChar = (char: string) => {
         if (isGameOver) return
@@ -168,7 +166,7 @@ export default function WordleGame({ initialSolution, socket, roomId, onGameOver
     }
 
     return (
-        <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+        <div className={styles.gameContainer}>
             <Toaster position="top-center" />
             <GameBoard guesses={guesses} currentGuess={currentGuess} turn={turn} solution={initialSolution} isShaking={isShaking} />
 

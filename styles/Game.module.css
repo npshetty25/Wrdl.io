@@ -41,6 +41,7 @@
     border: 2px solid rgba(255, 255, 255, 0.2);
     /* Lighter border */
     text-transform: uppercase;
+    -webkit-user-select: none;
     user-select: none;
     background-color: rgba(0, 0, 0, 0.3);
     /* Semi-transparent data bg */
@@ -76,6 +77,13 @@
     animation: flip 0.6s ease forwards;
 }
 
+.tile[data-index="0"] { animation-delay: 0ms; }
+.tile[data-index="1"] { animation-delay: 300ms; }
+.tile[data-index="2"] { animation-delay: 600ms; }
+.tile[data-index="3"] { animation-delay: 900ms; }
+.tile[data-index="4"] { animation-delay: 1200ms; }
+
+
 @keyframes pop {
     0% {
         transform: scale(1);
@@ -109,6 +117,7 @@
 .keyboard {
     margin-top: auto;
     padding-bottom: 20px;
+    -webkit-user-select: none;
     user-select: none;
     width: 100%;
     max-width: 800px;
@@ -133,6 +142,7 @@
     height: 58px;
     border-radius: 4px;
     cursor: pointer;
+    -webkit-user-select: none;
     user-select: none;
     background-color: #d3d6da;
     color: #000000;
@@ -175,6 +185,57 @@
         background-color: #818384;
         color: #ffffff;
     }
+}
+
+/* Opponent Board Styles */
+.opponentBoardContainer {
+    width: 200px;
+    height: 240px;
+    gap: 3px;
+}
+
+.opponentBoardRow {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 3px;
+}
+
+.opponentBoardEmptyTile {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.opponentBoardTile {
+    background: var(--color-absent);
+    width: 100%;
+    aspect-ratio: 1;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1rem;
+    color: white;
+}
+
+.opponentBoardTileCorrect {
+    background: var(--color-correct);
+}
+
+.opponentBoardTilePresent {
+    background: var(--color-present);
+}
+
+.opponentBoardTileAbsent {
+    background: var(--color-absent);
+}
+
+.gameContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 /* Mobile Optimizations */

@@ -44,7 +44,7 @@ export default function Lobby() {
         <div className={styles.modeContainer}>
           {/* Cooperative Card (show first) */}
           <div
-            className={`mode-card ${mode === 'coop' ? 'selected' : ''} ${styles.modeCard}`}
+            className={`mode-card ${mode === 'coop' ? `selected ${styles.selectedCoop}` : ''} ${styles.modeCard}`}
             onClick={() => setMode('coop')}
           >
             <div className={styles.iconWrapper}>
@@ -57,8 +57,8 @@ export default function Lobby() {
               />
             </div>
             <div className={styles.cardContent}>
-              <h2 className={styles.modeTitle} style={{ color: mode === 'coop' ? '#4ade80' : '#fff' }}>Cooperative (Solo or With Friends)</h2>
-              <p className={styles.modeDescription} style={{ color: '#ccc' }}>
+              <h2 className={`${styles.modeTitle} ${mode === 'coop' ? styles.modeCoopActive : ''}`}>Cooperative</h2>
+              <p className={styles.modeDescription}>
                 Team up or play solo. Solve together or on your own. <br />Share the board and victory.
               </p>
             </div>
@@ -66,7 +66,7 @@ export default function Lobby() {
 
           {/* Competitive Card (shown second) */}
           <div
-            className={`mode-card ${mode === 'competitive' ? 'selected' : ''} ${styles.modeCard}`}
+            className={`mode-card ${mode === 'competitive' ? `selected ${styles.selectedCompetitive}` : ''} ${styles.modeCard}`}
             onClick={() => setMode('competitive')}
           >
             <div className={styles.iconWrapper}>
@@ -79,8 +79,8 @@ export default function Lobby() {
               />
             </div>
             <div className={styles.cardContent}>
-              <h2 className={styles.modeTitle} style={{ color: mode === 'competitive' ? '#a78bfa' : '#fff' }}>Competitive</h2>
-              <p className={styles.modeDescription} style={{ color: '#ccc' }}>
+              <h2 className={`${styles.modeTitle} ${mode === 'competitive' ? styles.modeCompetitiveActive : ''}`}>Competitive</h2>
+              <p className={styles.modeDescription}>
                 1v1 Battle. Race to solve the word. <br />Interfere with your opponent.
               </p>
             </div>

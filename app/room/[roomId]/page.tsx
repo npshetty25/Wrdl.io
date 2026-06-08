@@ -1,4 +1,5 @@
-'use client'
+ 'use client'
+/* eslint-disable react-hooks/set-state-in-effect */
 
 import { useEffect, useState, useRef } from 'react'
 import { useParams, useSearchParams } from 'next/navigation'
@@ -24,6 +25,7 @@ export default function RoomPage() {
     const modeParam = searchParams.get('mode')
 
     const socketRef = useRef<Socket | null>(null)
+    const [socketState, setSocketState] = useState<Socket | null>(null)
 
     const [players, setPlayers] = useState<Player[]>([])
     const [gameState, setGameState] = useState<'waiting' | 'playing' | 'ended'>('waiting')
@@ -49,12 +51,18 @@ export default function RoomPage() {
     const [notification, setNotification] = useState<string | null>(null)
     const [isMounted, setIsMounted] = useState(false)
 
+    function showNotification(msg: string) {
+        setNotification(msg)
+        setTimeout(() => setNotification(null), 3000)
+    }
+
     useEffect(() => {
         setIsMounted(true)
         if (!socketRef.current) {
             socketRef.current = io()
         }
         const socket = socketRef.current
+        setSocketState(socket)
 
         if (username && roomId) {
             socket.emit('join_room', { roomId, username, mode: modeParam })
@@ -150,13 +158,11 @@ export default function RoomPage() {
         return () => {
             socket.disconnect()
             socketRef.current = null
+            setSocketState(null)
         }
     }, [roomId, username, modeParam])
 
-    const showNotification = (msg: string) => {
-        setNotification(msg)
-        setTimeout(() => setNotification(null), 3000)
-    }
+    // showNotification hoisted above
 
     const handleGameOver = (result: 'win' | 'loss') => {
         if (result === 'win') {
@@ -209,13 +215,13 @@ export default function RoomPage() {
     const [tempUsername, setTempUsername] = useState('')
     if (!username) {
         return (
-            <main style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', gap: '20px' }}>
+            <main className={styles.joinMainContainer}>
                 <h1>Join Room</h1>
                 <input
                     placeholder="Enter Username"
                     value={tempUsername}
                     onChange={e => setTempUsername(e.target.value)}
-                    style={{ padding: '15px', fontSize: '1.2rem', borderRadius: '8px', border: '1px solid var(--tile-border)', background: 'transparent', color: 'inherit' }}
+                    className={styles.joinInput}
                 />
                 <button
                     onClick={() => {
@@ -224,7 +230,7 @@ export default function RoomPage() {
                             window.location.href = newUrl;
                         }
                     }}
-                    style={{ padding: '15px 30px', background: 'var(--color-correct)', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '1.2rem' }}
+                    className={styles.joinButton}
                 >
                     Join Game
                 </button>
@@ -244,7 +250,7 @@ export default function RoomPage() {
                     <div className={styles.mobileInfoRow}>
                         {/* Left: QR - 30% */}
                         <div className={styles.mobileQrSection}>
-                            <div className={styles.qrContainer} style={{ background: 'white', padding: '5px', borderRadius: '5px' }}>
+                            <div className={styles.qrContainerWithBg}>
                                 {isMounted && <QRCodeSVG value={fullShareUrl} size={70} />}
                             </div>
                         </div>
@@ -253,18 +259,18 @@ export default function RoomPage() {
                         <div className={styles.mobileInfoSection}>
                             {/* Mode */}
                             <div>
-                                <p style={{ fontSize: '0.65rem', color: '#aaa', margin: 0 }}>Mode</p>
-                                <div style={{ fontWeight: 'bold', fontSize: '0.75rem' }}>{mode === 'coop' ? 'Coop' : 'Comp'}</div>
+                                <p className={styles.mobileLabel}>Mode</p>
+                                <div className={styles.mobileLabelValue}>{mode === 'coop' ? 'Coop' : 'Comp'}</div>
                             </div>
 
                             {/* Room Code */}
                             <div>
-                                <p style={{ fontSize: '0.65rem', color: '#aaa', margin: 0 }}>Code</p>
-                                <div className={styles.roomId} style={{ fontSize: '0.85rem' }}>{roomId}</div>
+                                <p className={styles.mobileLabel}>Code</p>
+                                <div className={`${styles.roomId} ${styles.mobileRoomId}`}>{roomId}</div>
                             </div>
 
                             {/* Copy Link */}
-                            <button onClick={copyLink} className={styles.copyButton} style={{ padding: '5px 6px', fontSize: '0.7rem' }}>
+                            <button onClick={copyLink} className={`${styles.copyButton} ${styles.mobileButton}`}>
                                 🔗 Copy
                             </button>
                         </div>
@@ -286,20 +292,20 @@ export default function RoomPage() {
                 {/* --- Desktop Layout (Shown > 900px) --- */}
                 <div className={styles.desktopInfo}>
                     <div>
-                        <h2 style={{ fontSize: '1.2rem', marginBottom: '5px' }}>Share Key</h2>
+                        <h2 className={styles.desktopShareTitle}>Share Key</h2>
                         <div className={styles.qrContainer}>
                             {isMounted && <QRCodeSVG value={fullShareUrl} size={150} />}
                         </div>
                     </div>
 
                     <div>
-                        <p style={{ fontSize: '0.9rem', color: '#aaa', margin: 0 }}>Room Code</p>
+                        <p className={styles.desktopLabel}>Room Code</p>
                         <div className={styles.roomId}>{roomId}</div>
                     </div>
 
                     {gameState === 'playing' && startTime > 0 && (
                         <div>
-                            <p style={{ fontSize: '0.9rem', color: '#aaa', margin: '0 0 5px 0' }}>Time</p>
+                            <p className={styles.desktopTimeLabel}>Time</p>
                             <Timer startTime={startTime} />
                         </div>
                     )}
@@ -310,7 +316,7 @@ export default function RoomPage() {
 
                     <div>
                         <p>Mode: <strong>{mode === 'coop' ? 'Cooperative' : 'Competitive'}</strong></p>
-                        <p style={{ fontSize: '0.8rem', opacity: 0.7 }}>
+                        <p className={styles.desktopModeDescription}>
                             {mode === 'coop' ? 'Work together to solve the word!' : 'Race to find the word first!'}
                         </p>
                     </div>
@@ -331,11 +337,10 @@ export default function RoomPage() {
                     <WordleGame
                         key={startTime}
                         initialSolution={solution}
-                        socket={socketRef.current!}
+                        socket={socketState!}
                         roomId={roomId as string}
                         onGameOver={handleGameOver}
                         forcedGuesses={mode === 'coop' ? sharedGuesses : undefined}
-                        opponentGuesses={opponentGuesses}
                         autoFillTrigger={autoFillTrigger}
                     />
                 ) : (
@@ -351,12 +356,12 @@ export default function RoomPage() {
 
                 {/* Player List (Compact) */}
                 <div className={styles.playerList}>
-                    <h3 style={{ marginTop: 0, fontSize: '1rem', marginBottom: '8px' }}>Players ({players.length})</h3>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                    <h3 className={styles.playerListTitle}>Players ({players.length})</h3>
+                    <div className={styles.playerItemsContainer}>
                         {players.map(p => (
                             <div key={p.id} className={styles.playerItem}>
                                 <div className={styles.playerIndicator} />
-                                <span>{p.username} {p.id === socketRef.current?.id ? '(You)' : ''}</span>
+                                <span>{p.username} {p.id === socketState?.id ? '(You)' : ''}</span>
                             </div>
                         ))}
                     </div>
@@ -365,7 +370,7 @@ export default function RoomPage() {
                 {/* Opponent Board (Compact, Scaled) */}
                 {mode === 'competitive' && gameState === 'playing' && (
                     <div className={styles.opponentBoard}>
-                        <h4 style={{ margin: '0 0 5px 0', fontSize: '0.9rem' }}>Opponent</h4>
+                        <h4 className={styles.opponentBoardTitle}>Opponent</h4>
                         {/* Wrapper for scaling */}
                         <div className={styles.opponentBoardWrapper}>
                             <div className={styles.opponentBoardScale}>
@@ -377,7 +382,7 @@ export default function RoomPage() {
 
                 {/* Chat (Takes remaining space) */}
                 <div className={styles.chatContainer}>
-                    <Chat socket={socketRef.current} roomId={roomId as string} username={username} onCheat={handleCheat} />
+                    <Chat socket={socketState} roomId={roomId as string} username={username} onCheat={handleCheat} />
                 </div>
             </aside>
 

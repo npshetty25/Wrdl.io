@@ -43,7 +43,6 @@
   font-weight: 600;
   line-height: 48px;
   letter-spacing: -2.4px;
-  text-wrap: balance;
   color: var(--text-primary);
 }
 
@@ -51,7 +50,6 @@
   max-width: 440px;
   font-size: 18px;
   line-height: 32px;
-  text-wrap: balance;
   color: var(--text-secondary);
 }
 
@@ -121,7 +119,37 @@ a.secondary {
     letter-spacing: -1.92px;
   }
 }
+/* Mode Card Styles */
+.modeCard {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
 
+.modeTitle {
+  color: #fff;
+}
+
+.modeTitle.modeCoopActive {
+  color: #4ade80;
+}
+
+.modeTitle.modeCompetitiveActive {
+  color: #a78bfa;
+}
+
+.modeDescription {
+  color: #ccc;
+}
+
+
+
+.coopIcon {
+  filter: drop-shadow(0 0 15px rgba(46, 204, 113, 0.4));
+}
+
+.competitiveIcon {
+  filter: drop-shadow(0 0 15px rgba(138, 43, 226, 0.4));
+}
 @media (prefers-color-scheme: dark) {
   .logo {
     filter: invert();

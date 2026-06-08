@@ -26,6 +26,7 @@ const STICKERS = [
 export default function Chat({ socket, roomId, username, onCheat }: ChatProps) {
     const [messages, setMessages] = useState<Message[]>([])
     const [input, setInput] = useState('')
+        /* eslint-disable @next/next/no-img-element */
     const [showStickers, setShowStickers] = useState(false)
     const msgsEndRef = useRef<HTMLDivElement>(null)
 

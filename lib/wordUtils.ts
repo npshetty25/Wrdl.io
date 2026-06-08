@@ -3,10 +3,10 @@ import WORD_LIST from './words.json';
 
 export const WORDS = WORD_LIST;
 
-export const checkGuess = (guess: string, solution: string) => {
+export const checkGuess = (guess: string, solution: string): Array<'correct'|'present'|'absent'> => {
     const guessChars = guess.split('');
     const solutionChars = solution.split('');
-    const status = Array(5).fill('absent');
+    const status: Array<'correct'|'present'|'absent'> = Array(5).fill('absent');
     const solutionCharCounts: Record<string, number> = {};
 
     // Count solution chars

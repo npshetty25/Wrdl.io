@@ -100,6 +100,35 @@
     font-size: 0.9rem;
 }
 
+.cardContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+}
+
+.modeCoopActive {
+    color: #4ade80 !important;
+    text-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
+}
+
+.modeCompetitiveActive {
+    color: #a78bfa !important;
+    text-shadow: 0 0 10px rgba(167, 139, 250, 0.3);
+}
+
+.modeCard.selectedCoop {
+    border-color: #4ade80 !important;
+    box-shadow: 0 0 30px rgba(46, 204, 113, 0.5) !important;
+}
+
+.modeCard.selectedCompetitive {
+    border-color: #a78bfa !important;
+    box-shadow: 0 0 30px rgba(167, 139, 250, 0.5) !important;
+}
+
+
 /* Controls Section */
 .controls {
     display: flex;

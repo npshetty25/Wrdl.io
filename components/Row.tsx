@@ -31,12 +31,12 @@ export default function Row({ guess, currentGuess, isCurrentRow, solution, shake
 
     if (guess) {
         const letters = guess.split('');
-        const statuses = solution ? checkGuess(guess, solution) : Array(5).fill('absent');
+        const statuses: Array<'correct'|'present'|'absent'> = solution ? checkGuess(guess, solution) : Array(5).fill('absent');
 
         return (
             <div className={styles.row}>
                 {letters.map((letter, i) => (
-                    <Tile key={i} letter={letter} status={statuses[i] as any} delay={`${i * 300}ms`} />
+                    <Tile key={i} letter={letter} status={statuses[i]} index={i} />
                 ))}
             </div>
         )
