@@ -42,7 +42,29 @@ export default function Lobby() {
 
         {/* Mode Selection */}
         <div className={styles.modeContainer}>
-          {/* Competitive Card */}
+          {/* Cooperative Card (show first) */}
+          <div
+            className={`mode-card ${mode === 'coop' ? 'selected' : ''} ${styles.modeCard}`}
+            onClick={() => setMode('coop')}
+          >
+            <div className={styles.iconWrapper}>
+              <Image
+                src="/cooperative-icon.png"
+                alt="Cooperative Mode"
+                fill
+                className={styles.modeImage}
+                style={{ filter: 'drop-shadow(0 0 15px rgba(46, 204, 113, 0.4))' }}
+              />
+            </div>
+            <div className={styles.cardContent}>
+              <h2 className={styles.modeTitle} style={{ color: mode === 'coop' ? '#4ade80' : '#fff' }}>Cooperative (Solo or With Friends)</h2>
+              <p className={styles.modeDescription} style={{ color: '#ccc' }}>
+                Team up or play solo. Solve together or on your own. <br />Share the board and victory.
+              </p>
+            </div>
+          </div>
+
+          {/* Competitive Card (shown second) */}
           <div
             className={`mode-card ${mode === 'competitive' ? 'selected' : ''} ${styles.modeCard}`}
             onClick={() => setMode('competitive')}
@@ -60,28 +82,6 @@ export default function Lobby() {
               <h2 className={styles.modeTitle} style={{ color: mode === 'competitive' ? '#a78bfa' : '#fff' }}>Competitive</h2>
               <p className={styles.modeDescription} style={{ color: '#ccc' }}>
                 1v1 Battle. Race to solve the word. <br />Interfere with your opponent.
-              </p>
-            </div>
-          </div>
-
-          {/* Cooperative Card */}
-          <div
-            className={`mode-card ${mode === 'coop' ? 'selected' : ''} ${styles.modeCard}`}
-            onClick={() => setMode('coop')}
-          >
-            <div className={styles.iconWrapper}>
-              <Image
-                src="/cooperative-icon.png"
-                alt="Cooperative Mode"
-                fill
-                className={styles.modeImage}
-                style={{ filter: 'drop-shadow(0 0 15px rgba(46, 204, 113, 0.4))' }}
-              />
-            </div>
-            <div className={styles.cardContent}>
-              <h2 className={styles.modeTitle} style={{ color: mode === 'coop' ? '#4ade80' : '#fff' }}>Cooperative</h2>
-              <p className={styles.modeDescription} style={{ color: '#ccc' }}>
-                Team up. Solve together. <br />Share the board and victory.
               </p>
             </div>
           </div>
